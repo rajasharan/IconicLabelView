@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.rajasharan.widget.IconicLabelView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,5 +24,22 @@ public class MainActivity extends AppCompatActivity {
                 .setTextColor(Color.argb(255, 200, 0, 0))
                 .setTextSize(16)
                 .setTexts(getString(R.string.short_text), getString(R.string.long_text));
+
+        IconicLabelView luffy = (IconicLabelView) findViewById(R.id.luffy);
+        luffy.setIcon(getResources().getDrawable(R.drawable.luffy))
+                .setBackground(Color.argb(70, 10, 150, 200))
+                .setCornerRadius(10.0f)
+                .setTextColor(Color.BLACK)
+                .setTextSize(32)
+                .setTexts(getString(R.string.luffy_short), getString(R.string.luffy_long));
+
+        Date date = new Date();
+        DateFormat df1 = new SimpleDateFormat("M/dd");
+        DateFormat df2 = new SimpleDateFormat("MMMM dd yyyy");
+        IconicLabelView time = (IconicLabelView) findViewById(R.id.time);
+        time.setIcon(getResources().getDrawable(R.drawable.ic_alarm_black))
+                .setTextColor(Color.GREEN)
+                .setTextSize(16)
+                .setTexts(df1.format(date), df2.format(date));
     }
 }

@@ -3,4 +3,7 @@
     <string name="demo">IconicLabelView Demo</string>
     <string name="long_text">rajasharan@gmail.com</string>
     <string name="short_text">Raja</string>
+
+    <string name="luffy_short">luffy</string>
+    <string name="luffy_long">Monkey D Luffy</string>
 </resources>
