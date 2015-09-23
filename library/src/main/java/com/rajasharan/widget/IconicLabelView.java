@@ -123,7 +123,7 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
             return;
         }
 
-        int w = MeasureSpec.makeMeasureSpec(mTextBounds.width() + mTextBounds.height() + 2*(int)mSpacing[0], MeasureSpec.EXACTLY);
+        int w = MeasureSpec.makeMeasureSpec(mTextBounds.width() + mTextBounds.height() + 2 * (int) mSpacing[0], MeasureSpec.EXACTLY);
         int h = MeasureSpec.makeMeasureSpec(mTextBounds.height() + 2*(int)mSpacing[0], MeasureSpec.EXACTLY);
         setMeasuredDimension(w, h);
         mLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
@@ -131,23 +131,23 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int l = getLeft() - mLayoutParams.leftMargin;
-        int t = getTop() - mLayoutParams.topMargin;
-        int r = getRight() - mLayoutParams.rightMargin;
-        int b = getBottom() - mLayoutParams.bottomMargin;
+        int l = 0;
+        int t = 0;
+        int r = l + getWidth();
+        int b = t + getHeight();
         int iconSize = mTextBounds.height();
         int spacing = (int)mSpacing[0];
 
-        drawIcon(canvas, l, t + spacing, iconSize);
-
-        drawText(canvas, l - mTextBounds.left + iconSize + spacing, t - mTextBounds.top + spacing);
-
         drawRoundedBackground(canvas, l, t, r, b);
+        drawIcon(canvas, l, t + spacing, iconSize);
+        drawText(canvas, l - mTextBounds.left + iconSize + spacing, t - mTextBounds.top + spacing);
     }
 
     private void drawIcon(Canvas canvas, int l, int t, int size) {
-        mIcon.setBounds(l, t, l + size, t + size);
-        mIcon.draw(canvas);
+        if (mIcon != null) {
+            mIcon.setBounds(l, t, l + size, t + size);
+            mIcon.draw(canvas);
+        }
     }
 
     private void drawText(Canvas canvas, int l, int t) {
