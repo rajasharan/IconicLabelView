@@ -201,6 +201,7 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
             }
         }
         mAnimText1ToText2 = !mAnimText1ToText2;
+        invalidate();
     }
 
     @Override
