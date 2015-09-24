@@ -3,6 +3,7 @@ package com.rajasharan.widget;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +30,6 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
     private String mText2;
     private Rect mTextBounds;
     private String mText;
-    private ViewGroup.MarginLayoutParams mLayoutParams;
     private ValueAnimator mAnim;
     private float[] mSpacing;
     private Paint mBackgroudPaint;
@@ -53,12 +54,18 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setTextAlign(Paint.Align.LEFT);
-        mTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, context.getResources().getDisplayMetrics()));
 
         mSpacing = new float[1];
         mTextPaint.getTextWidths(new char[]{' '}, 0, 1, mSpacing);
 
-        mRoundedRadius = 5.0f;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IconicLabelView);
+        setIcon(a.getDrawable(R.styleable.IconicLabelView_label_icon));
+        setBackground(a.getColor(R.styleable.IconicLabelView_bg_color, -1));
+        setCornerRadius(a.getFloat(R.styleable.IconicLabelView_corner_radius, 5.0f));
+        setTextColor(a.getColor(R.styleable.IconicLabelView_text_color, -1));
+        setTextSize(a.getDimensionPixelSize(R.styleable.IconicLabelView_text_size, 14));
+        setTexts(a.getString(R.styleable.IconicLabelView_text1), a.getString(R.styleable.IconicLabelView_text2));
+        a.recycle();
     }
 
     public IconicLabelView setIcon(Drawable d) {
@@ -67,6 +74,9 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
     }
 
     public IconicLabelView setTexts(String text1, String text2) {
+        if (text1 == null || text2 == null) {
+            return this;
+        }
         mText1 = text1;
         Rect text1Bounds = new Rect();
         mTextPaint.getTextBounds(mText1, 0, mText1.length(), text1Bounds);
@@ -86,6 +96,9 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
     }
 
     public IconicLabelView setBackground(int color) {
+        if (color == -1) {
+            return this;
+        }
         mBackgroudPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroudPaint.setStyle(Paint.Style.FILL);
         mBackgroudPaint.setColor(color);
@@ -100,19 +113,23 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
     }
 
     public IconicLabelView setTextColor(int color) {
+        if (color == -1) {
+            return this;
+        }
         mTextPaint.setColor(color);
         return this;
     }
 
     /**
      * Do not call this method after text values are set.
-     * Call before setting text values
+     * Call before setting text values because text bounds are
+     * computed based on textSize
      *
-     * @param spValue value in SP units
+     * @param raw size in raw pixels
      * @return
      */
-    public IconicLabelView setTextSize(int spValue) {
-        mTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, getContext().getResources().getDisplayMetrics()));
+    public IconicLabelView setTextSize(float raw) {
+        mTextPaint.setTextSize(raw);
         return this;
     }
 
@@ -126,7 +143,6 @@ public class IconicLabelView extends View implements ValueAnimator.AnimatorUpdat
         int w = MeasureSpec.makeMeasureSpec(mTextBounds.width() + mTextBounds.height() + 2 * (int) mSpacing[0], MeasureSpec.EXACTLY);
         int h = MeasureSpec.makeMeasureSpec(mTextBounds.height() + 2*(int)mSpacing[0], MeasureSpec.EXACTLY);
         setMeasuredDimension(w, h);
-        mLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
     }
 
     @Override

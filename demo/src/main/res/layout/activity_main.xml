@@ -14,6 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        app:label_icon="@drawable/ic_launcher"
+        app:bg_color="#5A808080"
+        app:corner_radius="4.0"
+        app:text_color="#C80000"
+        app:text_size="14sp"
+        app:text1="@string/short_text"
+        app:text2="@string/long_text"
         />
 
     <com.rajasharan.widget.IconicLabelView
@@ -22,6 +29,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        app:label_icon="@drawable/luffy"
+        app:bg_color="#460A96C8"
+        app:corner_radius="6.0"
+        app:text_color="@android:color/black"
+        app:text_size="32sp"
+        app:text1="@string/luffy_short"
+        app:text2="@string/luffy_long"
         />
 
     <com.rajasharan.widget.IconicLabelView
@@ -30,6 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        app:label_icon="@drawable/ic_alarm_black"
+        app:text_color="@android:color/holo_green_dark"
+        app:text_size="16sp"
         />
 
 </LinearLayout>
